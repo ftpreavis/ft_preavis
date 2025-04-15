@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 16:11:15 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/14 18:31:11 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/15 17:38:11 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ MSG_RM_DIR				:=	"\t❌  $(TERM_RED) Removed $(TERM_YELLOW)\"%s\"$(TERM_RED) dir
 
 # ---------------------------------- Docker ---------------------------------- #
 
+MSG_DC_MODE					:=	"\n\t🐳$(TERM_BLUE) Running compose using: %s$(TERM_RESET)\n"
 MSG_DOCKER_UP				:=	"\n\t🐳$(TERM_BLUE) Starting and building projects containers...$(TERM_RESET)"
 MSG_DOCKER_UP_DONE			:=	"\n\t🐳$(TERM_GREEN) Done starting containers !$(TERM_RESET)"
 MSG_DOCKER_DOWN				:=	"\n\t🐳$(TERM_RED) Shutting down containers...$(TERM_RESET)"
