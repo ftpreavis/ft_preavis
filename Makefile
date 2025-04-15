@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/15 18:43:18 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/15 18:57:54 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ include Messages.mk
 #                                  PHONY RULES                                 #
 # ---------------------------------------------------------------------------- #
 
-all: clone-all pull-all restart
+all: clone-all up
 
 clone-all:
 	@printf $(MSG_SETTING_UP) Infra
