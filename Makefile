@@ -6,7 +6,11 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/15 11:17:15 by cpoulain         ###   ########.fr        #
+<<<<<<< Updated upstream
+#    Updated: 2025/04/14 17:21:28 by cpoulain         ###   ########.fr        #
+=======
+#    Updated: 2025/04/15 14:05:46 by cpoulain         ###   ########.fr        #
+>>>>>>> Stashed changes
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,14 +28,14 @@ include Messages.mk
 #                                  PHONY RULES                                 #
 # ---------------------------------------------------------------------------- #
 
-all: pull-all restart	## Pull-all and restart
+all: clone-all pull-all restart
 
-clone-all:	## Clone all repositories (infra and microservices)
-	@printf $(MSG_SETTING_UP) infra
+clone-all:
+	@printf $(MSG_SETTING_UP) Infra
 	@if [ ! -d "$(INFRA_DIR)" ]; then \
-		printf $(MSG_CLONING) infra; \
+		printf $(MSG_CLONING) Infra; \
 		git clone $(INFRA_REPOS) $(INFRA_DIR) > /dev/null 2>&1; \
-		printf $(MSG_DONE_CLONING) infra; \
+		printf $(MSG_DONE_CLONING) Infra; \
 	else \
 		printf $(MSG_ALREADY_CLONED) Infra; \
 	fi
@@ -49,6 +53,9 @@ clone-all:	## Clone all repositories (infra and microservices)
 		fi; \
 	done
 
+<<<<<<< Updated upstream
+reset: down
+=======
 pull-all: $(MS_FOLDERS)	## Pulls all repositories
 	@if [ -d "$(INFRA_DIR)" ]; then \
 		printf $(MSG_UPDATING) infra; \
@@ -72,26 +79,46 @@ $(MS_FOLDERS):	## Clones all microservices
 	@$(MAKE) --no-print-directory clone-all
 
 reset: down	## Removes infra and services
+	@printf	$(MSG_DC_MODE) "$(DC)"
+>>>>>>> Stashed changes
 	@printf ${MSG_RM_DIR} $(MS_DIR)
 	@${RM} -r $(MS_DIR)
 	@printf ${MSG_RM_DIR} $(INFRA_DIR)
 	@$(RM) -r $(INFRA_DIR)
 
+<<<<<<< Updated upstream
+.PHONY:	all up down restart logs vault-seed reset clone-all pull
+=======
 up:		## Up the containers
+	@printf	$(MSG_DC_MODE) "$(DC)"
 	@printf $(MSG_DOCKER_UP)
 	@cd $(INFRA_DIR) && $(DC) up -d --build
 	@printf $(MSG_DOCKER_UP_DONE)
 
 down:	## Shutdowns the containers
+	@printf	$(MSG_DC_MODE) "$(DC)"
 	@printf $(MSG_DOCKER_DOWN)
 	@cd $(INFRA_DIR) && $(DC) down
 	@printf $(MSG_DOCKER_DOWN_DONE)
 
 restart:	## Restarts the containers
+	@printf	$(MSG_DC_MODE) "$(DC)"
 	@printf $(MSG_DOCKER_DOWN)
 	@cd $(INFRA_DIR) && $(DC) down -v
 	@printf $(MSG_DOCKER_DOWN_DONE)
-	@$(MAKE) --no-print-directory up -d
+	@$(MAKE) --no-print-directory up
+
+up-prod:	## Run containers in production mode
+	$(MAKE) up DC=$(DC_PROD)
+
+down-prod:	## Shutdowns the containers in production mode
+	$(MAKE) down DC=$(DC_PROD)
+
+restart-prod:	## Restarts the containers in production mode
+	$(MAKE) restart DC=$(DC_PROD)
+
+logs-prod:		## Show logs in production mode
+	$(MAKE) logs DC=$(DC_PROD)
 
 git-status:	## Does a git status on everyrepos
 	@printf $(MSG_STATUS_DIR) $(INFRA_DIR)
@@ -107,10 +134,14 @@ git-status:	## Does a git status on everyrepos
 logs:	## Displays logs output from services
 	@cd $(INFRA_DIR) && $(DC) logs -f
 
-vault-seed:	## Seeds the vault container
+vault-seed:	## Seeds the vault container	@printf $(MSG_VAULT_SEEDING)
 	@printf $(MSG_VAULT_SEEDING)
-	@cd $(SCRIPTS_DIR) && ./init_vault.sh
-	@printf $(MSG_DONE_VAULT_SEEDING)
+	@if ! docker ps | grep -q vault; then \
+		echo "🚫 Vault is not running. Start it with: make up"; \
+	else \
+		cd $(SCRIPTS_DIR) && ./init_vault.sh; \
+		printf $(MSG_DONE_VAULT_SEEDING); \
+	fi
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "🛠  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -131,3 +162,4 @@ new-micro: ## Prompt to create and init new microservices
 	done
 
 .PHONY:	all up down restart logs vault-seed git-status reset clone-all pull-all help new-micro
+>>>>>>> Stashed changes

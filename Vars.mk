@@ -6,15 +6,25 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/14 18:20:27 by cpoulain         ###   ########.fr        #
+<<<<<<< Updated upstream
+#    Updated: 2025/04/14 17:17:47 by cpoulain         ###   ########.fr        #
+=======
+#    Updated: 2025/04/15 13:59:59 by cpoulain         ###   ########.fr        #
+>>>>>>> Stashed changes
 #                                                                              #
 # **************************************************************************** #
 
 # Commands
 
+<<<<<<< Updated upstream
+RM				=	/usr/bin/rm -f
+ECHO			=	/usr/bin/echo
+=======
 RM					:=	/usr/bin/rm -f
 ECHO				:=	/usr/bin/echo
-DC					:=	docker-compose
+DC					?=	docker compose -f docker-compose.dev.yml
+DC_PROD				=	docker compose -f docker-compose.yml
+>>>>>>> Stashed changes
 
 # Repos
 
@@ -37,8 +47,3 @@ MS_REPOS_NAME		:=	gateway-service \
 						matchmaking-service \
 						chat-service \
 						lobby-service
-MS_FOLDERS			:=	$(addprefix $(MS_DIR)/, $(MS_REPOS_NAME))
-
-# Scripts
-
-SCRIPTS_DIR			:=	scripts
