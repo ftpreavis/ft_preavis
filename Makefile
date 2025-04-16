@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/16 19:19:30 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/16 19:32:36 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,5 +148,13 @@ vault-seed-dev: ## If you want to re-seed the vault module
 		-e VAULT_ADDR=http://vault-module:8200 \
 		-e VAULT_TOKEN=root \
 		vault-seeder-dev
+
+vault-seed-prod: ## If you want to re-seed the vault module
+	@cd $(INFRA_DIR)/vault/seeder && docker build -f seeder.prod.dockerfile -t vault-seeder-prod .
+	docker run --rm \
+		--network container:vault-module \
+		-e VAULT_ADDR=http://vault-module:8200 \
+		-e VAULT_TOKEN=root \
+		vault-seeder-prod
 
 .PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev
