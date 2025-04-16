@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/15 18:57:54 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/16 19:32:36 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,15 +123,6 @@ git-status:	## Does a git status on everyrepos
 logs:	## Displays logs output from services
 	@cd $(INFRA_DIR) && $(DC) logs -f
 
-vault-seed:	## Seeds the vault container	@printf $(MSG_VAULT_SEEDING)
-	@printf $(MSG_VAULT_SEEDING)
-	@if ! docker ps | grep -q vault; then \
-		echo "🚫 Vault is not running. Start it with: make up"; \
-	else \
-		cd $(SCRIPTS_DIR) && ./init_vault.sh; \
-		printf $(MSG_DONE_VAULT_SEEDING); \
-	fi
-
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "🛠  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
@@ -150,4 +141,20 @@ new-micro: ## Prompt to create and init new microservices
 		fi; \
 	done
 
-.PHONY:	all up down restart logs vault-seed git-status reset clone-all pull-all help new-micro
+vault-seed-dev: ## If you want to re-seed the vault module
+	@cd $(INFRA_DIR)/vault/seeder && docker build -f seeder.dev.dockerfile -t vault-seeder-dev .
+	docker run --rm \
+		--network container:vault-module \
+		-e VAULT_ADDR=http://vault-module:8200 \
+		-e VAULT_TOKEN=root \
+		vault-seeder-dev
+
+vault-seed-prod: ## If you want to re-seed the vault module
+	@cd $(INFRA_DIR)/vault/seeder && docker build -f seeder.prod.dockerfile -t vault-seeder-prod .
+	docker run --rm \
+		--network container:vault-module \
+		-e VAULT_ADDR=http://vault-module:8200 \
+		-e VAULT_TOKEN=root \
+		vault-seeder-prod
+
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev
