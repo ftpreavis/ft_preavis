@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
+#    By: mosmont <mosmont@student.42lehavre.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/22 15:35:47 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/22 18:01:30 by mosmont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -173,4 +173,16 @@ vault-seed-prod: ## If you want to re-seed the vault module
 		-e VAULT_TOKEN=root \
 		vault-seeder-prod
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev
+node-wrapper: run-node-wrapper enter-node-wrapper ## Builds and run the node_wrapper container
+
+run-node-wrapper: ## Runs a node wrapper inside of a docker container
+	@cd $(INFRA_DIR) && docker build -t node_wrapper -f FrontInit.Dockerfile .
+	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
+
+enter-node-wrapper: ## Puts you into the node_wrapper container
+	@docker exec -it node_wrapper sh
+
+stop-node-wrapper: ## Stops the node_wrapper container
+	@docker stop node_wrapper
+
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper
