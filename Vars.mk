@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/16 19:32:41 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/22 15:32:52 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,11 @@ ORG_URL					:=	git@github.com:ftpreavis
 
 INFRA_DIR				:=	infra
 INFRA_REPOS				:=	$(ORG_URL)/infra.git
+
+# Frontend
+
+FRONT_DIR				:=	frontend
+FRONT_REPOS				:=	$(ORG_URL)/frontend.git
 
 # Microservices
 
