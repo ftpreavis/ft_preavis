@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/16 19:32:36 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/22 15:35:47 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,10 +35,16 @@ clone-all:
 	else \
 		printf $(MSG_ALREADY_CLONED) Infra; \
 	fi
-
+	@printf $(MSG_SETTING_UP) Frontend
+	@if [ ! -d "$(FRONT_DIR)" ]; then \
+		printf $(MSG_CLONING) Frontend; \
+		git clone $(FRONT_REPOS) $(FRONT_DIR) > /dev/null 2>&1; \
+		printf $(MSG_DONE_CLONING) Frontend; \
+	else \
+		printf $(MSG_ALREADY_CLONED) Frontend; \
+	fi
 	@printf $(MSG_SETTING_UP) Microservices
 	@mkdir -p $(MS_DIR)
-
 	@for repo in $(MS_REPOS_NAME); do \
 		if [ ! -d "$(MS_DIR)/$$repo" ]; then \
 			printf $(MSG_CLONING) $$repo; \
@@ -51,11 +57,19 @@ clone-all:
 
 pull-all: $(MS_FOLDERS)	## Pulls all repositories
 	@if [ -d "$(INFRA_DIR)" ]; then \
-		printf $(MSG_UPDATING) infra; \
+		printf $(MSG_UPDATING) Infra; \
 		git -C infra pull > /dev/null 2>&1; \
-		printf $(MSG_DONE_UPDATING) infra; \
+		printf $(MSG_DONE_UPDATING) Infra; \
 	else \
-		printf $(MSG_IGNORING) infra; \
+		printf $(MSG_IGNORING) Infra; \
+	fi
+	@printf "\n"
+	@if [ -d "$(FRONT_DIR)" ]; then \
+		printf $(MSG_UPDATING) Frontend; \
+		git -C frontend pull > /dev/null 2>&1; \
+		printf $(MSG_DONE_UPDATING) Frontend; \
+	else \
+		printf $(MSG_IGNORING) Frontend; \
 	fi
 	@printf "\n"
 	@for repo in $(MS_FOLDERS); do \
@@ -112,6 +126,8 @@ logs-prod:		## Show logs in production mode
 git-status:	## Does a git status on everyrepos
 	@printf $(MSG_STATUS_DIR) $(INFRA_DIR)
 	@git -C $(INFRA_DIR) status -s
+	@printf $(MSG_STATUS_DIR) $(FRONT_DIR)
+	@git -C $(FRONT_DIR) status -s
 	@for repo in $(MS_FOLDERS); do \
 		if [ -d "$$repo" ]; then \
 			printf $(MSG_STATUS_DIR) $$repo; \
