@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mosmont <mosmont@student.42lehavre.fr>     +#+  +:+       +#+         #
+#    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/22 18:01:30 by mosmont          ###   ########.fr        #
+#    Updated: 2025/04/25 15:30:24 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -178,6 +178,7 @@ node-wrapper: run-node-wrapper enter-node-wrapper ## Builds and run the node_wra
 run-node-wrapper: ## Runs a node wrapper inside of a docker container
 	@cd $(INFRA_DIR) && docker build -t node_wrapper -f FrontInit.Dockerfile .
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
+	@docker exec -it -d node_wrapper npm run dev -- --host
 
 enter-node-wrapper: ## Puts you into the node_wrapper container
 	@docker exec -it node_wrapper sh
