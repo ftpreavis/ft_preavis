@@ -180,6 +180,14 @@ run-node-wrapper: ## Runs a node wrapper inside of a docker container
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
 	@docker exec -it -d node_wrapper npm run dev -- --host
 
+run-node-wrapper-prod:
+	@cd $(INFRA_DIR) && docker build -t node_wrapper -f FrontInit.Dockerfile .
+	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
+	@docker exec -it -d node_wrapper npm install 
+	@docker exec -it -d node_wrapper rm -rf ./dist
+	@docker exec -it -d node_wrapper npm run build
+	@docker exec -it -d node_wrapper npm run preview -- --port 5173 --host
+
 enter-node-wrapper: ## Puts you into the node_wrapper container
 	@docker exec -it node_wrapper sh
 
