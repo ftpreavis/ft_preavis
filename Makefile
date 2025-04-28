@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/25 15:30:24 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/28 11:47:02 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -180,10 +180,10 @@ run-node-wrapper: ## Runs a node wrapper inside of a docker container
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
 	@docker exec -it -d node_wrapper npm run dev -- --host
 
-run-node-wrapper-prod:
+run-node-wrapper-prod: ## Temporary, should be implemented soon in docker compose
 	@cd $(INFRA_DIR) && docker build -t node_wrapper -f FrontInit.Dockerfile .
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
-	@docker exec -it -d node_wrapper npm install 
+	@docker exec -it -d node_wrapper npm install
 	@docker exec -it -d node_wrapper rm -rf ./dist
 	@docker exec -it -d node_wrapper npm run build
 	@docker exec -it -d node_wrapper npm run preview -- --port 5173 --host
