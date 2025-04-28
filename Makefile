@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/28 11:47:02 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/28 16:30:56 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,16 +112,16 @@ restart:	## Restarts the containers
 	@$(MAKE) --no-print-directory up
 
 up-prod:	## Run containers in production mode
-	$(MAKE) up DC=$(DC_PROD)
+	$(MAKE) --no-print-directory up DC="$(DC_PROD)"
 
 down-prod:	## Shutdowns the containers in production mode
-	$(MAKE) down DC=$(DC_PROD)
+	$(MAKE) --no-print-directory down DC="$(DC_PROD)"
 
 restart-prod:	## Restarts the containers in production mode
-	$(MAKE) restart DC=$(DC_PROD)
+	$(MAKE) --no-print-directory restart DC="$(DC_PROD)"
 
 logs-prod:		## Show logs in production mode
-	$(MAKE) logs DC=$(DC_PROD)
+	$(MAKE) --no-print-directory logs DC="$(DC_PROD)"
 
 git-status:	## Does a git status on everyrepos
 	@printf $(MSG_STATUS_DIR) $(INFRA_DIR)
