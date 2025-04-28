@@ -5,3 +5,4 @@ In dev mode, change the dev seeder.
 
 - make : will run clone-all and up rules
 - clone-all : will clone all repositories specified in Vars.mk -> MS_REPOS_NAME
+- pull-all : will pull all repositories on their current selected branch
