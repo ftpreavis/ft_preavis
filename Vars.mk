@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/30 12:19:37 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/30 14:06:05 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ MS_REPOS_NAME			:=	gateway-service \
 							matchmaking-service \
 							chat-service \
 							lobby-service \
+							media-service \
 							db-service
 
 MS_FOLDERS				:=	$(addprefix $(MS_DIR)/, $(MS_REPOS_NAME))
