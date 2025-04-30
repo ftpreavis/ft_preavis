@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/30 15:49:00 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/30 15:51:18 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,8 +112,7 @@ restart:	## Restarts the containers
 	@$(MAKE) --no-print-directory up
 
 init-volumes: ## Inits the volumes for the prod
-	mkdir -p $(VOLUMES_FOLDERS)
-	chown -R root:CICD $(VOLUMES_ROOT)
+	mkdir -p -m770 $(VOLUMES_FOLDERS)
 
 up-prod:		init-volumes ## Run containers in production mode
 	$(MAKE) --no-print-directory up DC="$(DC_PROD)"
