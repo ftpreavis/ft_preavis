@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/25 15:30:24 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/30 12:19:46 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ include Messages.mk
 #                                  PHONY RULES                                 #
 # ---------------------------------------------------------------------------- #
 
-all: clone-all up
+all: clone-all up ## Clone-all and up
 
-clone-all:
+clone-all: ## Clones all repositories
 	@printf $(MSG_SETTING_UP) Infra
 	@if [ ! -d "$(INFRA_DIR)" ]; then \
 		printf $(MSG_CLONING) Infra; \
@@ -111,16 +111,19 @@ restart:	## Restarts the containers
 	@printf $(MSG_DOCKER_DOWN_DONE)
 	@$(MAKE) --no-print-directory up
 
-up-prod:	## Run containers in production mode
+init-volumes: ## Inits the volumes for the prod
+	mkdir -p $(VOLUMES_FOLDERS)
+
+up-prod:		init-volumes ## Run containers in production mode
 	$(MAKE) up DC=$(DC_PROD)
 
-down-prod:	## Shutdowns the containers in production mode
+down-prod:		init-volumes ## Shutdowns the containers in production mode
 	$(MAKE) down DC=$(DC_PROD)
 
-restart-prod:	## Restarts the containers in production mode
+restart-prod:	init-volumes ## Restarts the containers in production mode
 	$(MAKE) restart DC=$(DC_PROD)
 
-logs-prod:		## Show logs in production mode
+logs-prod:		init-volumes ## Show logs in production mode
 	$(MAKE) logs DC=$(DC_PROD)
 
 git-status:	## Does a git status on everyrepos
@@ -183,7 +186,7 @@ run-node-wrapper: ## Runs a node wrapper inside of a docker container
 run-node-wrapper-prod:
 	@cd $(INFRA_DIR) && docker build -t node_wrapper -f FrontInit.Dockerfile .
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
-	@docker exec -it -d node_wrapper npm install 
+	@docker exec -it -d node_wrapper npm install
 	@docker exec -it -d node_wrapper rm -rf ./dist
 	@docker exec -it -d node_wrapper npm run build
 	@docker exec -it -d node_wrapper npm run preview -- --port 5173 --host
@@ -194,4 +197,4 @@ enter-node-wrapper: ## Puts you into the node_wrapper container
 stop-node-wrapper: ## Stops the node_wrapper container
 	@docker stop node_wrapper
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes
