@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/22 15:32:52 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/30 12:19:37 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,12 @@ ORG_URL					:=	git@github.com:ftpreavis
 
 INFRA_DIR				:=	infra
 INFRA_REPOS				:=	$(ORG_URL)/infra.git
+
+# Prod volumes
+
+VOLUMES_ROOT			:=	/srv/ft_preavis/data
+VOLUMES_SUBFOLDERS		:=	vault/data vault/certs grafana/data prometheus/data
+VOLUMES_FOLDERS			:=	$(addprefix $(VOLUMES_ROOT)/, $(VOLUMES_SUBFOLDERS))
 
 # Frontend
 

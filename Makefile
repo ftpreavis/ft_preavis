@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/28 16:30:56 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/04/30 12:19:46 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ include Messages.mk
 #                                  PHONY RULES                                 #
 # ---------------------------------------------------------------------------- #
 
-all: clone-all up
+all: clone-all up ## Clone-all and up
 
-clone-all:
+clone-all: ## Clones all repositories
 	@printf $(MSG_SETTING_UP) Infra
 	@if [ ! -d "$(INFRA_DIR)" ]; then \
 		printf $(MSG_CLONING) Infra; \
@@ -111,16 +111,19 @@ restart:	## Restarts the containers
 	@printf $(MSG_DOCKER_DOWN_DONE)
 	@$(MAKE) --no-print-directory up
 
-up-prod:	## Run containers in production mode
+init-volumes: ## Inits the volumes for the prod
+	mkdir -p $(VOLUMES_FOLDERS)
+
+up-prod:		init-volumes ## Run containers in production mode
 	$(MAKE) --no-print-directory up DC="$(DC_PROD)"
 
-down-prod:	## Shutdowns the containers in production mode
+down-prod:		init-volumes ## Shutdowns the containers in production mode
 	$(MAKE) --no-print-directory down DC="$(DC_PROD)"
 
-restart-prod:	## Restarts the containers in production mode
+restart-prod:	init-volumes ## Restarts the containers in production mode
 	$(MAKE) --no-print-directory restart DC="$(DC_PROD)"
 
-logs-prod:		## Show logs in production mode
+logs-prod:		init-volumes ## Show logs in production mode
 	$(MAKE) --no-print-directory logs DC="$(DC_PROD)"
 
 git-status:	## Does a git status on everyrepos
@@ -194,4 +197,4 @@ enter-node-wrapper: ## Puts you into the node_wrapper container
 stop-node-wrapper: ## Stops the node_wrapper container
 	@docker stop node_wrapper
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes
