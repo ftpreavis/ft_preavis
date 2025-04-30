@@ -115,16 +115,16 @@ init-volumes: ## Inits the volumes for the prod
 	mkdir -p $(VOLUMES_FOLDERS)
 
 up-prod:		init-volumes ## Run containers in production mode
-	$(MAKE) up DC=$(DC_PROD)
+	$(MAKE) --no-print-directory up DC="$(DC_PROD)"
 
 down-prod:		init-volumes ## Shutdowns the containers in production mode
-	$(MAKE) down DC=$(DC_PROD)
+	$(MAKE) --no-print-directory down DC="$(DC_PROD)"
 
 restart-prod:	init-volumes ## Restarts the containers in production mode
-	$(MAKE) restart DC=$(DC_PROD)
+	$(MAKE) --no-print-directory restart DC="$(DC_PROD)"
 
 logs-prod:		init-volumes ## Show logs in production mode
-	$(MAKE) logs DC=$(DC_PROD)
+	$(MAKE) --no-print-directory logs DC="$(DC_PROD)"
 
 git-status:	## Does a git status on everyrepos
 	@printf $(MSG_STATUS_DIR) $(INFRA_DIR)
@@ -183,7 +183,7 @@ run-node-wrapper: ## Runs a node wrapper inside of a docker container
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
 	@docker exec -it -d node_wrapper npm run dev -- --host
 
-run-node-wrapper-prod:
+run-node-wrapper-prod: ## Temporary, should be implemented soon in docker compose
 	@cd $(INFRA_DIR) && docker build -t node_wrapper -f FrontInit.Dockerfile .
 	@cd $(FRONT_DIR) && docker run --rm -it -d --name node_wrapper -p 5173:5173/tcp -v "./":/app node_wrapper
 	@docker exec -it -d node_wrapper npm install

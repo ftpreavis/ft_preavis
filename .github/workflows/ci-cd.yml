@@ -1,0 +1,11 @@
+# ft_preavis (meta repo) stub: .github/workflows/ci-cd.yml
+name: CI/CD Meta
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  meta-ci-cd:
+    uses: ftpreavis/.github/.github/workflows/deploy-meta.yml@master
+    secrets: inherit
