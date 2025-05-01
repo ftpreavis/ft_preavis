@@ -29,7 +29,7 @@ INFRA_REPOS				:=	$(ORG_URL)/infra.git
 # Prod volumes
 
 VOLUMES_ROOT			:=	/srv/ft_preavis/data
-VOLUMES_SUBFOLDERS		:=	vault/data vault/certs grafana/data prometheus/data
+VOLUMES_SUBFOLDERS		:=	vault/data vault/certs grafana/data prometheus/data nginx/logs
 VOLUMES_FOLDERS			:=	$(addprefix $(VOLUMES_ROOT)/, $(VOLUMES_SUBFOLDERS))
 
 # Frontend
