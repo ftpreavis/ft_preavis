@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/30 12:19:46 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/06 16:01:41 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,10 @@ restart:	## Restarts the containers
 	@$(MAKE) --no-print-directory up
 
 init-volumes: ## Inits the volumes for the prod
-	mkdir -p $(VOLUMES_FOLDERS)
+	mkdir -p -m770 $(VOLUMES_FOLDERS)
+	@if [ -e "$(DB_PRISMA_PATH)" ]; then \
+		touch $(DB_PRISMA_PATH); \
+	fi
 
 up-prod:		init-volumes ## Run containers in production mode
 	$(MAKE) --no-print-directory up DC="$(DC_PROD)"
