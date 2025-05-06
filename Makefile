@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/06 17:02:57 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/06 17:08:51 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ restart:	## Restarts the containers
 
 init-volumes: ## Inits the volumes for the prod
 	mkdir -p -m770 $(VOLUMES_FOLDERS)
-	chown -R 100:101 /srv/ft_preavis/data/services/db-service
+	sudo chown -R 100:101 /srv/ft_preavis/data/services/db-service
 
 up-prod:		init-volumes ## Run containers in production mode
 	$(MAKE) --no-print-directory up DC="$(DC_PROD)"
