@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/06 16:13:14 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/06 16:23:55 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,6 +115,7 @@ init-volumes: ## Inits the volumes for the prod
 	mkdir -p -m770 $(VOLUMES_FOLDERS)
 	@if [ ! -e "$(DB_PRISMA_PATH)" ]; then \
 		touch $(DB_PRISMA_PATH); \
+		chmod 770 $(DB_PRISMA_PATH); \
 	fi
 
 up-prod:		init-volumes ## Run containers in production mode
