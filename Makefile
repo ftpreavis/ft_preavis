@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/06 16:01:41 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/06 16:13:14 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ restart:	## Restarts the containers
 
 init-volumes: ## Inits the volumes for the prod
 	mkdir -p -m770 $(VOLUMES_FOLDERS)
-	@if [ -e "$(DB_PRISMA_PATH)" ]; then \
+	@if [ ! -e "$(DB_PRISMA_PATH)" ]; then \
 		touch $(DB_PRISMA_PATH); \
 	fi
 
