@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/12 14:44:12 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/12 14:45:59 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -142,13 +142,13 @@ git-status:	## Does a git status on everyrepos
 
 git-checkout:	## Checkout all repos on master (Alias: gc)
 	@printf $(MSG_CHECKOUT_DIR) $(INFRA_DIR) $(BRANCH)
-	@git -C $(INFRA_DIR) checkout $(BRANCH)
+	@git -C $(INFRA_DIR) checkout $(BRANCH) -q
 	@printf $(MSG_CHECKOUT_DIR) $(FRONT_DIR) $(BRANCH)
-	@git -C $(FRONT_DIR) checkout $(BRANCH)
+	@git -C $(FRONT_DIR) checkout $(BRANCH) -q
 	@for repo in $(MS_FOLDERS); do \
 		if [ -d "$$repo" ]; then \
 			printf $(MSG_CHECKOUT_DIR) $$repo $(BRANCH); \
-			git -C $$repo checkout $(BRANCH); \
+			git -C $$repo checkout $(BRANCH) -q; \
 		fi; \
 	done
 	@printf "\n"
