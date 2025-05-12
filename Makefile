@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/06 17:08:51 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/12 14:44:12 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,6 +140,26 @@ git-status:	## Does a git status on everyrepos
 	done
 	@printf "\n"
 
+git-checkout:	## Checkout all repos on master (Alias: gc)
+	@printf $(MSG_CHECKOUT_DIR) $(INFRA_DIR) $(BRANCH)
+	@git -C $(INFRA_DIR) checkout $(BRANCH)
+	@printf $(MSG_CHECKOUT_DIR) $(FRONT_DIR) $(BRANCH)
+	@git -C $(FRONT_DIR) checkout $(BRANCH)
+	@for repo in $(MS_FOLDERS); do \
+		if [ -d "$$repo" ]; then \
+			printf $(MSG_CHECKOUT_DIR) $$repo $(BRANCH); \
+			git -C $$repo checkout $(BRANCH); \
+		fi; \
+	done
+	@printf "\n"
+
+git-checkout-dev:	## Checkout all repos on dev (Alias: gc-dev)
+	$(MAKE) --no-print-directory git-checkout BRANCH="$(DEV_BRANCH)"
+
+gc-dev: git-checkout-dev	## Checkout all repos on dev
+
+gc: git-checkout	## Checkout all repos on master
+
 logs:	## Displays logs output from services
 	@cd $(INFRA_DIR) && $(DC) logs -f
 
@@ -198,4 +218,4 @@ enter-node-wrapper: ## Puts you into the node_wrapper container
 stop-node-wrapper: ## Stops the node_wrapper container
 	@docker stop node_wrapper
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev

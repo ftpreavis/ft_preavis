@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 16:11:15 by cpoulain          #+#    #+#              #
-#    Updated: 2025/04/16 16:50:18 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/12 14:40:58 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ MSG_DONE_UPDATING		:=	"\n\t✅ $(TERM_GREEN)Done updating %s !$(TERM_RESET)\n"
 MSG_IGNORING			:=	"\n\t🚧 $(TERM_YELLOW)%s does not exists, ignoring...$(TERM_RESET)"
 
 MSG_STATUS_DIR			:=	"\n\t📁 $(TERM_BLUE) Checking %s status...$(TERM_RESET)"
+MSG_CHECKOUT_DIR			:=	"\n\t⏩ $(TERM_BLUE) Checking out %s to %s branch...$(TERM_RESET)"
 
 MSG_RM_DIR				:=	"\t❌  $(TERM_RED) Removed $(TERM_YELLOW)\"%s\"$(TERM_RED) directory.$(TERM_RESET)\n"
 

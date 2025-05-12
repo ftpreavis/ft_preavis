@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/12 09:56:52 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/12 14:38:40 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ DC_PROD					=	docker compose -f docker-compose.yml
 # Repos
 
 ORG_URL					:=	git@github.com:ftpreavis
+BRANCH					?=	master
+DEV_BRANCH				:=	dev
 
 # Infrastructure
 
