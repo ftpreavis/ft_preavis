@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
+#    By: mosmont <mosmont@student.42lehavre.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/14 15:13:39 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/14 17:38:23 by mosmont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ pull-all: $(MS_FOLDERS)	## Pulls all repositories
 		fi; \
 	done
 
+# TODO: Add if statement to npx prisma db push if db is empty. Also run export DATABASE_URL before it
 install:	## Install all node projects (Alias: i)
 	@printf $(MSG_INSTALLING) $(FRONT_DIR)
 	@cd $(FRONT_DIR) && npm install
