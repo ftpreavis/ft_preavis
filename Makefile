@@ -6,7 +6,7 @@
 #    By: mosmont <mosmont@student.42lehavre.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/14 17:38:23 by mosmont          ###   ########.fr        #
+#    Updated: 2025/05/14 17:41:09 by mosmont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ pull-all: $(MS_FOLDERS)	## Pulls all repositories
 # TODO: Add if statement to npx prisma db push if db is empty. Also run export DATABASE_URL before it
 install:	## Install all node projects (Alias: i)
 	@printf $(MSG_INSTALLING) $(FRONT_DIR)
-	@cd $(FRONT_DIR) && npm install
+	@cd $(FRONT_DIR); npm install;
 	@printf $(MSG_DONE_INSTALLING) $(FRONT_DIR)
 	@for repo in $(MS_FOLDERS); do \
 		if [ -d "$$repo" ]; then \
