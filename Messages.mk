@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 16:11:15 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/12 14:40:58 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/14 15:02:32 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,3 +43,5 @@ MSG_DOCKER_DOWN_DONE		:=	"\n\t🐳$(TERM_GREEN) Done shutting down containers !$
 
 MSG_VAULT_SEEDING		:=	"\n\t🔨 $(TERM_YELLOW)Seeding vault...$(TERM_RESET)"
 MSG_DONE_VAULT_SEEDING	:=	"\n\t✅ $(TERM_GREEN)Done seeding vault !$(TERM_RESET)\n"
+MSG_INSTALLING			:=	"\n\t🔨 $(TERM_YELLOW)Installing %s...$(TERM_RESET)"
+MSG_DONE_INSTALLING		:=	"\n\t✅ $(TERM_GREEN)Done installing %s !$(TERM_RESET)\n"

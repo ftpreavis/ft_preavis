@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/12 14:45:59 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/14 15:13:39 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,28 @@ pull-all: $(MS_FOLDERS)	## Pulls all repositories
 			printf $(MSG_IGNORING) $$repo; \
 		fi; \
 	done
+
+install:	## Install all node projects (Alias: i)
+	@printf $(MSG_INSTALLING) $(FRONT_DIR)
+	@cd $(FRONT_DIR) && npm install
+	@printf $(MSG_DONE_INSTALLING) $(FRONT_DIR)
+	@for repo in $(MS_FOLDERS); do \
+		if [ -d "$$repo" ]; then \
+			printf $(MSG_INSTALLING) $$repo; \
+			cd $$repo; \
+			$(INSTALL); \
+			cd -; \
+			printf $(MSG_DONE_INSTALLING) $$repo; \
+		fi; \
+	done
+	@printf "\n"
+
+sudo_install:	## Install all node projects with sudo (Alias: si)
+	$(MAKE) --no-print-directory install INSTALL="$(S_INSTALL)"
+
+i:	install	## Install all node projects
+
+si:	sudo_install	## Install all node projects with sudo
 
 $(MS_FOLDERS):	## Clones all microservices
 	@$(MAKE) --no-print-directory clone-all
@@ -218,4 +240,4 @@ enter-node-wrapper: ## Puts you into the node_wrapper container
 stop-node-wrapper: ## Stops the node_wrapper container
 	@docker stop node_wrapper
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si

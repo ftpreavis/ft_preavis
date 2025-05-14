@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/12 14:38:40 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/14 15:10:33 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ RM						:=	/usr/bin/rm -f
 ECHO					:=	/usr/bin/echo
 DC						?=	docker compose -f docker-compose.dev.yml
 DC_PROD					=	docker compose -f docker-compose.yml
+INSTALL					?=	npm install
+S_INSTALL				:=	sudo npm install
 
 # Repos
 
