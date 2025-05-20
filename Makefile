@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mosmont <mosmont@student.42lehavre.fr>     +#+  +:+       +#+         #
+#    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/14 17:41:09 by mosmont          ###   ########.fr        #
+#    Updated: 2025/05/20 16:18:17 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -241,4 +241,15 @@ enter-node-wrapper: ## Puts you into the node_wrapper container
 stop-node-wrapper: ## Stops the node_wrapper container
 	@docker stop node_wrapper
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si
+re-gen-db: ## Regenerate db-service database
+	@if [ "$(docker ps -a -q -f name=infra-db-service) | wc -l" ]; then \
+		docker exec -it -d db-service npx prisma migrate reset -f; \
+		docker exec -it -d db-service npx prisma migrate dev; \
+		docker exec -it -d db-service npx prisma generate; \
+		docker stop db-service; \
+		$(MAKE) --no-print-directory up; \
+	else \
+		echo "Failed ! DB-Service container not running."; \
+	fi
+
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si re-gen-db
