@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/06 17:08:51 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/05/20 16:18:17 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,29 @@ pull-all: $(MS_FOLDERS)	## Pulls all repositories
 		fi; \
 	done
 
+# TODO: Add if statement to npx prisma db push if db is empty. Also run export DATABASE_URL before it
+install:	## Install all node projects (Alias: i)
+	@printf $(MSG_INSTALLING) $(FRONT_DIR)
+	@cd $(FRONT_DIR); npm install;
+	@printf $(MSG_DONE_INSTALLING) $(FRONT_DIR)
+	@for repo in $(MS_FOLDERS); do \
+		if [ -d "$$repo" ]; then \
+			printf $(MSG_INSTALLING) $$repo; \
+			cd $$repo; \
+			$(INSTALL); \
+			cd -; \
+			printf $(MSG_DONE_INSTALLING) $$repo; \
+		fi; \
+	done
+	@printf "\n"
+
+sudo_install:	## Install all node projects with sudo (Alias: si)
+	$(MAKE) --no-print-directory install INSTALL="$(S_INSTALL)"
+
+i:	install	## Install all node projects
+
+si:	sudo_install	## Install all node projects with sudo
+
 $(MS_FOLDERS):	## Clones all microservices
 	@$(MAKE) --no-print-directory clone-all
 
@@ -139,6 +162,26 @@ git-status:	## Does a git status on everyrepos
 		fi; \
 	done
 	@printf "\n"
+
+git-checkout:	## Checkout all repos on master (Alias: gc)
+	@printf $(MSG_CHECKOUT_DIR) $(INFRA_DIR) $(BRANCH)
+	@git -C $(INFRA_DIR) checkout $(BRANCH) -q
+	@printf $(MSG_CHECKOUT_DIR) $(FRONT_DIR) $(BRANCH)
+	@git -C $(FRONT_DIR) checkout $(BRANCH) -q
+	@for repo in $(MS_FOLDERS); do \
+		if [ -d "$$repo" ]; then \
+			printf $(MSG_CHECKOUT_DIR) $$repo $(BRANCH); \
+			git -C $$repo checkout $(BRANCH) -q; \
+		fi; \
+	done
+	@printf "\n"
+
+git-checkout-dev:	## Checkout all repos on dev (Alias: gc-dev)
+	$(MAKE) --no-print-directory git-checkout BRANCH="$(DEV_BRANCH)"
+
+gc-dev: git-checkout-dev	## Checkout all repos on dev
+
+gc: git-checkout	## Checkout all repos on master
 
 logs:	## Displays logs output from services
 	@cd $(INFRA_DIR) && $(DC) logs -f
@@ -198,4 +241,15 @@ enter-node-wrapper: ## Puts you into the node_wrapper container
 stop-node-wrapper: ## Stops the node_wrapper container
 	@docker stop node_wrapper
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes
+re-gen-db: ## Regenerate db-service database
+	@if [ "$(docker ps -a -q -f name=infra-db-service) | wc -l" ]; then \
+		docker exec -it -d db-service npx prisma migrate reset -f; \
+		docker exec -it -d db-service npx prisma migrate dev; \
+		docker exec -it -d db-service npx prisma generate; \
+		docker stop db-service; \
+		$(MAKE) --no-print-directory up; \
+	else \
+		echo "Failed ! DB-Service container not running."; \
+	fi
+
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si re-gen-db
