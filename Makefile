@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/06/04 12:38:21 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/04 12:41:50 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,7 @@ check-mandatory-files:
 			exit 1; \
 		fi; \
 	fi
+	@cat $(DEV_ENV_PATH) | grep DATABASE_URL > $(DB_SERVICE_ENV_PATH)
 
 down:	## Shutdowns the containers
 	@printf	$(MSG_DC_MODE) "$(DC)"
