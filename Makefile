@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/06/04 12:28:14 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/04 12:38:21 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ include Messages.mk
 #                                  PHONY RULES                                 #
 # ---------------------------------------------------------------------------- #
 
-all: clone-all gc-dev i deploy-db-migration up
+all: clone-all gc-dev check-mandatory-files i deploy-db-migration up
 
 clone-all: ## Clones all repositories
 	@printf $(MSG_SETTING_UP) Infra
