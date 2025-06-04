@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 16:11:15 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/14 15:02:32 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/04 12:25:20 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,3 +45,8 @@ MSG_VAULT_SEEDING		:=	"\n\t🔨 $(TERM_YELLOW)Seeding vault...$(TERM_RESET)"
 MSG_DONE_VAULT_SEEDING	:=	"\n\t✅ $(TERM_GREEN)Done seeding vault !$(TERM_RESET)\n"
 MSG_INSTALLING			:=	"\n\t🔨 $(TERM_YELLOW)Installing %s...$(TERM_RESET)"
 MSG_DONE_INSTALLING		:=	"\n\t✅ $(TERM_GREEN)Done installing %s !$(TERM_RESET)\n"
+
+MSG_MISSING_CONFIG_FILES	:=	"\n\t⚠️  $(TERM_RED)Missing required config files:$(TERM_RESET)\n"
+MSG_MISSING_FILE_ITEM		:=	"\t - $(TERM_YELLOW)%s$(TERM_RESET)\n"
+MSG_ABORTING				:=	"\n\t🛑 $(TERM_RED)Aborted.$(TERM_RESET)\n"
+MSG_INTERACTIVE_PROMPT		:=	"\n❓ Do you want to generate them interactively now? [y/N] "

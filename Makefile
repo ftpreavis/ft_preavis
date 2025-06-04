@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/06/04 11:52:47 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/04 12:28:14 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ include Messages.mk
 #                                  PHONY RULES                                 #
 # ---------------------------------------------------------------------------- #
 
-all: clone-all i deploy-db-migration up
+all: clone-all gc-dev i deploy-db-migration up
 
 clone-all: ## Clones all repositories
 	@printf $(MSG_SETTING_UP) Infra
@@ -115,11 +115,27 @@ reset: down	## Removes infra and services
 	@printf ${MSG_RM_DIR} $(INFRA_DIR)
 	@$(RM) -r $(INFRA_DIR)
 
-up:		## Up the containers
-	@printf	$(MSG_DC_MODE) "$(DC)"
-	@printf $(MSG_DOCKER_UP)
-	@cd $(INFRA_DIR) && $(DC) up -d --build
-	@printf $(MSG_DOCKER_UP_DONE)
+up:	check-mandatory-files ## Up the containers
+	printf $(MSG_DC_MODE) "$(DC)"; \
+	printf $(MSG_DOCKER_UP); \
+	cd $(INFRA_DIR) && $(DC) up -d --build; \
+	printf $(MSG_DOCKER_UP_DONE)
+
+check-mandatory-files:
+	@if [ ! -f "$(DEV_ENV_PATH)" ] || [ ! -f "$(CSV_ENV_PATH)" ]; then \
+		printf $(MSG_MISSING_CONFIG_FILES); \
+		[ ! -f "$(DEV_ENV_PATH)" ] && printf $(MSG_MISSING_FILE_ITEM) "$(DEV_ENV_PATH)"; \
+		[ ! -f "$(CSV_ENV_PATH)" ] && printf $(MSG_MISSING_FILE_ITEM) "$(CSV_ENV_PATH)"; \
+		printf $(MSG_INTERACTIVE_PROMPT); \
+		read yn < /dev/tty; \
+		if [ "$$yn" = "y" ] || [ "$$yn" = "Y" ]; then \
+			[ ! -f "$(DEV_ENV_PATH)" ] && bash $(INIT_ENV_SCRIPT_PATH); \
+			[ ! -f "$(CSV_ENV_PATH)" ] && bash $(INIT_CSV_SCRIPT_PATH); \
+		else \
+			printf $(MSG_ABORTING); \
+			exit 1; \
+		fi; \
+	fi
 
 down:	## Shutdowns the containers
 	@printf	$(MSG_DC_MODE) "$(DC)"
@@ -212,14 +228,6 @@ vault-seed-dev: ## If you want to re-seed the vault module
 		-e VAULT_TOKEN=root \
 		vault-seeder-dev
 
-vault-seed-prod: ## If you want to re-seed the vault module
-	@cd $(INFRA_DIR)/vault/seeder && docker build -f seeder.prod.dockerfile -t vault-seeder-prod .
-	docker run --rm \
-		--network container:vault-module \
-		-e VAULT_ADDR=http://vault-module:8200 \
-		-e VAULT_TOKEN=root \
-		vault-seeder-prod
-
 re-gen-db: ## Regenerate db-service database
 	@if [ "$(docker ps -a -q -f name=infra-db-service) | wc -l" ]; then \
 		docker exec -it -d db-service npx prisma migrate reset -f; \
@@ -234,4 +242,4 @@ re-gen-db: ## Regenerate db-service database
 deploy-db-migration: ## executes npx prisma migrate deploy
 	cd services/db-service; npx prisma migrate deploy;
 
-.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si re-gen-db
+.PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si re-gen-db check-mandatory-files deploy-db-migration
