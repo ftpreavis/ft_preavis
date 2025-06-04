@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:07 by cpoulain          #+#    #+#              #
-#    Updated: 2025/06/04 12:29:35 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/04 12:41:24 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,3 +62,4 @@ MS_REPOS_NAME			:=	gateway-service \
 							db-service
 
 MS_FOLDERS				:=	$(addprefix $(MS_DIR)/, $(MS_REPOS_NAME))
+DB_SERVICE_ENV_PATH		:=	$(MS_DIR)/db-service/.env
