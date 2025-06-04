@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/05/20 16:18:17 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/04 11:51:33 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -251,5 +251,8 @@ re-gen-db: ## Regenerate db-service database
 	else \
 		echo "Failed ! DB-Service container not running."; \
 	fi
+
+deploy-db-migration: ## executes npx prisma migrate deploy
+	cd services/db-service; npx prisma migrate deploy;
 
 .PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev enter-node-wrapper run-node-wrapper node-wrapper init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si re-gen-db
