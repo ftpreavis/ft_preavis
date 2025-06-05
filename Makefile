@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/06/04 12:41:50 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/05 11:57:25 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,7 @@ reset: down	## Removes infra and services
 	@printf ${MSG_RM_DIR} $(INFRA_DIR)
 	@$(RM) -r $(INFRA_DIR)
 
-up:	check-mandatory-files ## Up the containers
+up:	 ## Up the containers
 	printf $(MSG_DC_MODE) "$(DC)"; \
 	printf $(MSG_DOCKER_UP); \
 	cd $(INFRA_DIR) && $(DC) up -d --build; \
@@ -241,6 +241,6 @@ re-gen-db: ## Regenerate db-service database
 	fi
 
 deploy-db-migration: ## executes npx prisma migrate deploy
-	cd services/db-service; npx prisma migrate deploy;
+	cd services/db-service; npx prisma migrate deploy; npx prisma generate;
 
 .PHONY:	all up down restart logs git-status reset clone-all pull-all help new-micro vault-seed-dev init-volumes gc gc-dev git-checkout git-checkout-dev install sudo_install i si re-gen-db check-mandatory-files deploy-db-migration
