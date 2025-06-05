@@ -6,7 +6,7 @@
 #    By: cpoulain <cpoulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 15:23:12 by cpoulain          #+#    #+#              #
-#    Updated: 2025/06/05 11:17:59 by cpoulain         ###   ########.fr        #
+#    Updated: 2025/06/05 11:57:25 by cpoulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,7 @@ reset: down	## Removes infra and services
 	@printf ${MSG_RM_DIR} $(INFRA_DIR)
 	@$(RM) -r $(INFRA_DIR)
 
-up:	check-mandatory-files ## Up the containers
+up:	 ## Up the containers
 	printf $(MSG_DC_MODE) "$(DC)"; \
 	printf $(MSG_DOCKER_UP); \
 	cd $(INFRA_DIR) && $(DC) up -d --build; \
